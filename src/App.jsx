@@ -1,45 +1,48 @@
 import { useState } from "react";
 import BreweriesList from "./components/BreweriesList";
 import BreweriesSearch from "./components/BreweriesSearch";
-import FilterSection from "./components/FilterSection";
+import FilterCitySection from "./components/FilterCitySection";
 import Header from "./components/Header";
 
 export default function App() {
-  const [statesInput, setStatesInput] = useState("");
-  const [stateSubmit, setStateSubmit] = useState(null);
-  const [userInput, setUserInput] = useState();
+  const [userInput, setUserInput] = useState([]);
   const [breweries, setBreweries] = useState([]);
   const [cities, setCities] = useState([]);
   const [filters, setFilters] = useState({ type: "", city: [], search: "" });
 
   console.log("Inside State: ", {
-    statesInput,
-    stateSubmit,
+    userInput,
     breweries,
     cities,
     filters
   });
 
-  function fetchBrewereies() {
+  function FetchBrewereies() {
     fetch(
-      `https://api.openbrewerydb.org/breweries?by_state=${userInput}&per_page=50`
+      `https://api.openbrewerydb.org/breweries?by_state=${userInput}&per_page=25`
     )
       .then((res) => res.json())
-      .then((statesInput) => {
-        console.log("Inside setStateInput: ", statesInput);
+      .then((cities) => {
+        // console.log("Inside setStateInput: ", cities);
 
-        setStatesInput(statesInput);
+        setCities(cities);
       });
   }
 
   const handleStateSubmit = (event) => {
     // console.log("Inside handleStateSubmit: ", handleStateSubmit);
     event.preventDefault();
-    fetchBrewereies();
+    FetchBrewereies();
   };
 
   const handleUserInput = (event) => {
     // console.log("Inside handleNameInput: ", event.target.value);
+
+    setUserInput(event.target.value);
+  };
+
+  const handleFilter = (event) => {
+    console.log("Inside handlefilter: ", event.target.value);
 
     setUserInput(event.target.value);
   };
@@ -52,10 +55,10 @@ export default function App() {
         handleStateSubmit={handleStateSubmit}
       />
       <main>
-        <FilterSection />
+        <FilterCitySection cities={cities} />
         <h1>List of Breweries</h1>
         <BreweriesSearch />
-        <BreweriesList statesInput={statesInput} />
+        <BreweriesList cities={cities} />
       </main>
     </>
   );

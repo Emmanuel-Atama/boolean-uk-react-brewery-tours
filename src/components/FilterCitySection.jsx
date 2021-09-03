@@ -1,4 +1,4 @@
-function FilterSection() {
+export default function FilterCitySection(props) {
   return (
     <aside className="filters-section">
       <h2>Filter By:</h2>
@@ -17,11 +17,16 @@ function FilterSection() {
         <h3>Cities</h3>
         <button className="clear-all-btn">clear all</button>
       </div>
-      {/* <form id="filter-by-city-form">
-        <input type="checkbox" name="chardon" value="chardon" />
-        <label htmlFor="chardon">Chardon</label>
-      </form> */}
+
+      {props.cities.map((city) => {
+        // console.log("Inside filter map: ", city);
+        return (
+          <form id="filter-by-city-form">
+            <input type="checkbox" name={city.city} value={city.city} />
+            <label htmlFor={city.city}>{city.city}</label>
+          </form>
+        );
+      })}
     </aside>
   );
 }
-export default FilterSection;

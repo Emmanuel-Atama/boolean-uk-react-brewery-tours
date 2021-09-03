@@ -1,28 +1,28 @@
-function BreweriesList(props) {
+export default function BreweriesList(props) {
   return (
     <article>
       <ul className="breweries-list">
-        {props.statesInput.map((states) => {
-          console.log("Inside breweries Map: ", states);
+        {props.cities.map((states, index) => {
+          // console.log("Inside breweries Map: ", states);
           return (
-            <li>
-              <h2>{props.name}</h2>
-              <div className="type">{props.brewery_type}</div>
+            <li key={index}>
+              <h2>{states.name}</h2>
+              <div className="type">{states.brewery_type}</div>
               <section className="address">
                 <h3>Address:</h3>
-                <p>{props.street}</p>
+                <p>{states.street ?? "No Street Address Recorded"}</p>
                 <p>
                   <strong>
-                    {props.city}, {props.postal_Code}
+                    {states.city}, {states.postal_Code}
                   </strong>
                 </p>
               </section>
               <section className="phone">
                 <h3>Phone:</h3>
-                <p>{props.phone}</p>
+                <p>{states.phone ?? "No Phone Number Recorded"}</p>
               </section>
               <section className="link">
-                <a href={props.website_url} target="_blank">
+                <a href={states.website_url} target="_blank">
                   Visit Website
                 </a>
               </section>
@@ -33,4 +33,3 @@ function BreweriesList(props) {
     </article>
   );
 }
-export default BreweriesList;
