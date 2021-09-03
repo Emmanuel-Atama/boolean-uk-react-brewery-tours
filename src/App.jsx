@@ -22,10 +22,11 @@ export default function App() {
       `https://api.openbrewerydb.org/breweries?by_state=${userInput}&per_page=25`
     )
       .then((res) => res.json())
-      .then((cities) => {
-        // console.log("Inside setStateInput: ", cities);
+      .then((data) => {
+        // console.log("Inside setStateInput: ", data);
 
-        setCities(cities);
+        setCities(data);
+        setBreweries(data);
       });
   }
 
@@ -40,11 +41,10 @@ export default function App() {
 
     setUserInput(event.target.value);
   };
-
   const handleFilter = (event) => {
     console.log("Inside handlefilter: ", event.target.value);
 
-    setUserInput(event.target.value);
+    setFilters(event.target.value);
   };
 
   return (
@@ -55,7 +55,13 @@ export default function App() {
         handleStateSubmit={handleStateSubmit}
       />
       <main>
-        <FilterCitySection cities={cities} />
+        <FilterCitySection
+          cities={cities}
+          filters={filters}
+          setFilters={setFilters}
+          breweries={breweries}
+          handleFilter={handleFilter}
+        />
         <h1>List of Breweries</h1>
         <BreweriesSearch />
         <BreweriesList cities={cities} />
